@@ -20,18 +20,22 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { useState, useTransition } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { AspectRatioKey, debounce, deepMergeObjects } from '@/lib/utils'
 import MediaUploader from './media-uploader'
 import TransformedImage from './transformed-image'
 import { updateCredits } from '@/lib/actions/user.actions'
+import { getCldImageUrl } from 'next-cloudinary'
+import { addImage, updateImage } from '@/lib/actions/image.actions'
+import { useRouter } from 'next/navigation'
+import { InsufficientCreditsModal } from './insufficient-credits-modal'
 
 export const formSchema = z.object({
-  title: z.string(),
+  title: z.string().min(1, { message: 'Title is required' }),
   aspectRatio: z.string().optional(),
   color: z.string().optional(),
   prompt: z.string().optional(),
-  publicId: z.string(),
+  publicId: z.string().min(1, { message: 'Image is required' }),
 })
 
 const TranformationForm = ({
@@ -48,8 +52,9 @@ const TranformationForm = ({
     useState<Transformations | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isTransforming, setIsTransforming] = useState(false)
-  const [tranformationConfig, setTranformationConfig] = useState(config)
+  const [transformationConfig, setTransformationConfig] = useState(config)
   const [isPending, startTransition] = useTransition()
+  const router = useRouter()
 
   const initialValues =
     data && action === 'Update'
@@ -67,8 +72,70 @@ const TranformationForm = ({
     defaultValues: initialValues,
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setIsSubmitting(true)
+
+    if (data || image) {
+      const tranformationUrl = getCldImageUrl({
+        width: image?.width,
+        height: image?.height,
+        src: image?.publicId,
+        ...transformationConfig,
+      })
+
+      const imageData: AddImageParams['image'] = {
+        title: values.title,
+        publicId: image?.publicId,
+        transformationType: type,
+        width: image?.width,
+        height: image?.height,
+        config: transformationConfig,
+        secureURL: image?.secureURL,
+        transformationURL: tranformationUrl,
+        aspectRatio: values.aspectRatio,
+        prompt: values.prompt,
+        color: values.color,
+      }
+
+      if (action === 'Add') {
+        try {
+          const newImage = await addImage({
+            image: imageData,
+            userId,
+            path: '/',
+          })
+
+          if (newImage) {
+            form.reset()
+            setImage(data)
+            router.push(`/transformations/${newImage._id}`)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      if (action === 'Update') {
+        try {
+          const updatedImage = await updateImage({
+            image: {
+              ...imageData,
+              _id: data._id,
+            },
+            userId,
+            path: `/transformations/${data._id}`,
+          })
+
+          if (updatedImage) {
+            router.push(`/transformations/${updatedImage._id}`)
+          }
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    }
+
+    setIsSubmitting(false)
   }
 
   const onSelectField = (
@@ -106,12 +173,12 @@ const TranformationForm = ({
     }, 1000)
   }
 
-  // TODO: Implement updateCredits action
+  // TODO: Update credits logic
   const onTranform = () => {
     setIsTransforming(true)
 
-    setTranformationConfig(
-      deepMergeObjects(newTranformation, tranformationConfig)
+    setTransformationConfig(
+      deepMergeObjects(newTranformation, transformationConfig)
     )
 
     setNewTransformation(null)
@@ -121,9 +188,16 @@ const TranformationForm = ({
     })
   }
 
+  useEffect(() => {
+    if (image && (type === 'restore' || type === 'removeBackground')) {
+      setNewTransformation(tranformationType.config)
+    }
+  }, [image, tranformationType.config, type])
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+        {creditBalance < Math.abs(creditFee) && <InsufficientCreditsModal />}
         <CustomField
           control={form.control}
           name='title'
@@ -228,7 +302,7 @@ const TranformationForm = ({
             title={form.getValues().title}
             isTransforming={isTransforming}
             setIsTransforming={setIsTransforming}
-            transformationConfig={tranformationConfig}
+            transformationConfig={transformationConfig}
           />
         </div>
 
