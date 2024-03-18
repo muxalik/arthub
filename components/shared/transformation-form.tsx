@@ -23,6 +23,8 @@ import {
 import { useState, useTransition } from 'react'
 import { AspectRatioKey, debounce, deepMergeObjects } from '@/lib/utils'
 import MediaUploader from './media-uploader'
+import TransformedImage from './transformed-image'
+import { updateCredits } from '@/lib/actions/user.actions'
 
 export const formSchema = z.object({
   title: z.string(),
@@ -45,7 +47,7 @@ const TranformationForm = ({
   const [newTranformation, setNewTransformation] =
     useState<Transformations | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isTransforming, setIsTranforming] = useState(false)
+  const [isTransforming, setIsTransforming] = useState(false)
   const [tranformationConfig, setTranformationConfig] = useState(config)
   const [isPending, startTransition] = useTransition()
 
@@ -106,7 +108,7 @@ const TranformationForm = ({
 
   // TODO: Implement updateCredits action
   const onTranform = () => {
-    setIsTranforming(true)
+    setIsTransforming(true)
 
     setTranformationConfig(
       deepMergeObjects(newTranformation, tranformationConfig)
@@ -115,7 +117,7 @@ const TranformationForm = ({
     setNewTransformation(null)
 
     startTransition(async () => {
-      // await updateCredits(userId, creditFee)
+      await updateCredits(userId, creditFee)
     })
   }
 
@@ -218,6 +220,15 @@ const TranformationForm = ({
                 type={type}
               />
             )}
+          />
+
+          <TransformedImage
+            image={image}
+            type={type}
+            title={form.getValues().title}
+            isTransforming={isTransforming}
+            setIsTransforming={setIsTransforming}
+            transformationConfig={tranformationConfig}
           />
         </div>
 
