@@ -1,12 +1,13 @@
 import MenuNav from '@/components/shared/menu-nav'
 import Sidebar from '@/components/shared/sidebar'
+import { Toaster } from '@/components/ui/toaster'
 import { ReactNode } from 'react'
 
 interface RootLayoutProps {
   children: ReactNode
 }
 
-const RootLayour = ({ children }: RootLayoutProps) => {
+const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <main className='root'>
       <Sidebar />
@@ -15,8 +16,10 @@ const RootLayour = ({ children }: RootLayoutProps) => {
       <div className='root-container'>
         <div className='wrapper'>{children}</div>
       </div>
+
+      <Toaster />
     </main>
   )
 }
 
-export default RootLayour
+export default RootLayout
