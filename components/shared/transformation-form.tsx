@@ -96,7 +96,7 @@ const TranformationForm = ({
         prompt: values.prompt,
         color: values.color,
       }
-
+      
       if (action === 'Add') {
         try {
           const newImage = await addImage({
@@ -170,7 +170,9 @@ const TranformationForm = ({
           [fieldName === 'prompt' ? 'prompt' : 'to']: value,
         },
       }))
-    }, 1000)
+    }, 1000)()
+
+    return onChangeField(value)
   }
 
   // TODO: Update credits logic
@@ -214,6 +216,7 @@ const TranformationForm = ({
             render={({ field }) => (
               <Select
                 onValueChange={(value) => onSelectField(value, field.onChange)}
+                value={field.value}
               >
                 <SelectTrigger className='select-field'>
                   <SelectValue placeholder='Select size' />

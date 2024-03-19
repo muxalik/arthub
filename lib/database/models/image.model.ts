@@ -10,7 +10,7 @@ export interface IImage extends Document {
   height?: number
   config?: object
   tranformationUrl?: string
-  aspectRation?: string
+  aspectRatio?: string
   prompt?: string
   author: {
     _id: string
@@ -50,7 +50,7 @@ const ImageSchema = new Schema({
   tranformationUrl: {
     type: String,
   },
-  aspectRation: {
+  aspectRatio: {
     type: String,
   },
   prompt: {
