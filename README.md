@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">Ai Powered SaaS Photo Editor<br> 
+Stack: Next.js, TailwindCSS, Shadcn UI, MongoDB(Atlas), Cloudinary, Stripe, TypeScript</p>
 
-## Getting Started
+## Screenshots
 
-First, run the development server:
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_1.png"></p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_2.png"></p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_3.png"></p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_4.png"></p>
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_5.png"></p>
 
-## Learn More
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_6.png"></p>
 
-To learn more about Next.js, take a look at the following resources:
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_7.png"></p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_8.png"></p>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_9.png"></p>
 
-## Deploy on Vercel
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_10.png"></p>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_11.png"></p>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_12.png"></p>
+
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_13.png"></p>
+
+<p align="center"><img src="https://github.com/muxalik/arthub/blob/master/images/Screenshot_14.png"></p>
